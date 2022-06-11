@@ -28,5 +28,4 @@ class Game {
     Logic gate;
 
     static constexpr int QUIT{(int)'x'};
-    static constexpr chtype BLANK{' '};
 };

@@ -16,7 +16,7 @@ void Game::print() const {
             if (M[i][j] != 0) {
                 this->grid.print(i + 1, j + 1, (char)('a' + M[i][j] - 1));
             } else {
-                this->grid.print(i + 1, j + 1, BLANK);
+                this->grid.print(i + 1, j + 1, ' ');
             }
         }
     }

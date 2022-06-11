@@ -25,9 +25,9 @@ void Game::print() const {
 }
 
 void Game::update() {
+    this->gate.move(this->input);
     if (!this->gate.spawn()) {
         this->gameOver = true;
         return;
     }
-    this->gate.move(this->input);
 }

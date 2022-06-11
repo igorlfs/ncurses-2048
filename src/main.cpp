@@ -13,7 +13,6 @@ void initialize() {
 }
 
 // TODO:
-// - Merge logic
 // - Tests
 
 int main() {

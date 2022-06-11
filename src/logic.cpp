@@ -1,11 +1,11 @@
 #include "logic.hpp"
 #include "random.hpp"
+#include <array>
 #include <curses.h>
 
+using std::array;
 using std::pair;
 using std::swap;
-
-const pair<int, int> INVALID = {-1, -1};
 
 Logic::Logic() {
     this->values.resize(NUM_ROWS);
@@ -44,56 +44,86 @@ bool Logic::spawn() {
 }
 
 void Logic::move(const int &input) {
-    for (int i = 0; i < NUM_ROWS; ++i) {
-        for (int j = 0; j < NUM_COLS; ++j) {
-            if (positions[i][j] == 0) {
+    array<int, 4> r = {0, 1, 2, 3};
+    array<int, 4> c = {0, 1, 2, 3};
+
+    if (input == KEY_UP) {
+        r = {3, 2, 1, 0};
+    }
+    if (input == KEY_LEFT) {
+        c = {3, 2, 1, 0};
+    }
+
+    for (int &i : r) {
+        for (int &j : c) {
+            if (this->values[i][j] == 0) {
                 continue;
             }
-            pair<int, int> temp = moveHelper(input, {i, j});
-            if (temp != INVALID) {
-                swap(positions[temp.first][temp.second], positions[i][j]);
-            }
+            moveHelper(input, i, j);
         }
     }
 }
 
-pair<int, int> Logic::moveHelper(const int &input, const pair<int, int> &p) {
-    pair<int, int> temp = INVALID;
+void Logic::moveHelper(const int &input, const int &n, const int &m) {
+    // Expect vertical move by default
+    bool horizontal = false;
+    vector<int> v;
+
     switch (input) {
         case KEY_UP: {
-            for (int k = p.first; k >= 0; --k) {
-                if (positions[k][p.second] == 0) {
-                    temp = {k, p.second};
-                }
+            for (int i = n - 1; i >= 0; --i) {
+                v.push_back(i);
             }
+
             break;
         }
         case KEY_DOWN: {
-            for (int k = p.first; k < NUM_ROWS; ++k) {
-                if (positions[k][p.second] == 0) {
-                    temp = {k, p.second};
-                }
+            for (int i = n + 1; i < NUM_ROWS; ++i) {
+                v.push_back(i);
             }
-            break;
-        }
-        case KEY_LEFT: {
-            for (int k = p.second; k >= 0; --k) {
-                if (positions[p.first][k] == 0) {
-                    temp = {p.first, k};
-                }
-            }
+
             break;
         }
         case KEY_RIGHT: {
-            for (int k = p.second; k < NUM_COLS; ++k) {
-                if (positions[p.first][k] == 0) {
-                    temp = {p.first, k};
-                }
+            for (int i = m + 1; i < NUM_COLS; ++i) {
+                v.push_back(i);
             }
+            horizontal = true;
+
+            break;
+        }
+        case KEY_LEFT: {
+            for (int i = m - 1; i >= 0; --i) {
+                v.push_back(i);
+            }
+            horizontal = true;
+
             break;
         }
     }
-    return temp;
+    handleMove(n, m, v, horizontal);
+}
+
+void Logic::handleMove(const int &n, const int &m, const vector<int> &v,
+                       const bool &horizontal) {
+    int *p = &this->values[n][m];
+    int *q;
+
+    for (const int &k : v) {
+        horizontal ? q = &this->values[n][k] : q = &this->values[k][m];
+
+        if (*q == *p) {
+            (*q)++;
+            *p = 0;
+        }
+
+        if (*q == 0) {
+            *q = *p;
+            *p = 0;
+        }
+
+        break;
+    }
 }
 
 bool Logic::isThereEnoughSpace() {

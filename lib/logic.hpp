@@ -30,6 +30,17 @@ class Logic {
     /// @return whether or not all positions are non-null numbers
     bool isThereEnoughSpace();
 
-    /// @brief handle input when moving
-    pair<int, int> moveHelper(const int &input, const pair<int, int> &p);
+    /// @brief set auxiliary variables to help move
+    /// @param input, direction to move
+    /// @param n, first coordinate of a given element
+    /// @param m, second coordinate of a given element
+    void moveHelper(const int &input, const int &n, const int &m);
+
+    /// @brief move a given position
+    /// @param n, first coordinate of a given element
+    /// @param m, second coordinate of a given element
+    /// @param v, possible candidates for moving given current input
+    /// @param horizontal, indicates movement direction
+    void handleMove(const int &n, const int &m, const vector<int> &v,
+                    const bool &horizontal);
 };

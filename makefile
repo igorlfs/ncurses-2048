@@ -38,7 +38,7 @@ $(TARGET): $(OBJ) ./$(BUILD_DIR)/main.o
 test: obj $(TESTS)
 
 $(TESTS): $(OBJ) $(BUILD_DIR)/test.o
-	$(CXX) $^ -lgtest -o $@
+	$(CXX) $^ -lgtest -o $@ $(LNFLAGS)
 	./$(TESTS)
 
 ./$(BUILD_DIR)/test.o: ./$(SRC_DIR)/test.cpp $(HPP_SOURCE)

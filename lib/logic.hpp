@@ -2,7 +2,6 @@
 
 #include <vector>
 
-using std::pair;
 using std::vector;
 
 using matrix = vector<vector<int>>;
@@ -16,7 +15,7 @@ class Logic {
     Logic();
 
     /// Getters
-    matrix getPositions() const { return this->positions; }
+    matrix getPositions() const { return this->values; }
 
     /// @brief changes the value of a position to a non-null number
     /// @return whether or not it was possible to change such value
@@ -25,7 +24,7 @@ class Logic {
     void move(const int &input);
 
   private:
-    matrix positions;
+    matrix values;
 
     /// @brief checks if the all positions are non-null numbers
     /// @return whether or not all positions are non-null numbers

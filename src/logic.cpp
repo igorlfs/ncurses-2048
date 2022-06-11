@@ -2,15 +2,16 @@
 #include "random.hpp"
 #include <curses.h>
 
+using std::pair;
 using std::swap;
 
 const pair<int, int> INVALID = {-1, -1};
 
 Logic::Logic() {
-    positions.resize(NUM_ROWS);
-    for (auto &position : positions) {
-        position.resize(NUM_COLS);
-        for (int &i : position) {
+    this->values.resize(NUM_ROWS);
+    for (auto &value : this->values) {
+        value.resize(NUM_COLS);
+        for (int &i : value) {
             i = 0;
         }
     }
@@ -25,7 +26,7 @@ bool Logic::spawn() {
     pair<int, int> p;
     while (true) {
         p = {Random::rng(0, NUM_COLS - 1), Random::rng(0, NUM_ROWS - 1)};
-        if (this->positions[p.first][p.second] == 0) {
+        if (this->values[p.first][p.second] == 0) {
             break;
         }
     }
@@ -37,7 +38,7 @@ bool Logic::spawn() {
     (Random::rng(0, ODDS) == 0) ? numberGenerated = 2 : numberGenerated = 1;
 
     // Place in position
-    this->positions[p.first][p.second] = numberGenerated;
+    this->values[p.first][p.second] = numberGenerated;
 
     return true;
 }
@@ -97,8 +98,8 @@ pair<int, int> Logic::moveHelper(const int &input, const pair<int, int> &p) {
 
 bool Logic::isThereEnoughSpace() {
     int space = 0;
-    for (auto &position : positions) {
-        for (int &i : position) {
+    for (auto &value : this->values) {
+        for (int &i : value) {
             if (i != 0) {
                 space++;
             }

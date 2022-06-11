@@ -1,6 +1,9 @@
 #include "game.hpp"
 #include "msgassert.hpp"
 
+static constexpr int WINDOW_COLS = 6;
+static constexpr int WINDOW_ROWS = 6;
+
 void initialize() {
     initscr();
     cbreak();
@@ -12,18 +15,23 @@ void initialize() {
     use_default_colors();
 }
 
+WINDOW *centralizeWindow() {
+    int yMax;
+    int xMax;
+
+    getmaxyx(stdscr, yMax, xMax);
+
+    return newwin(WINDOW_COLS, WINDOW_ROWS, (yMax - WINDOW_COLS) / 2,
+                  (xMax - WINDOW_ROWS) / 2);
+}
+
 // TODO:
 // - Tests
 
 int main() {
     initialize();
 
-    static constexpr int Y = 6;
-    static constexpr int X = 6;
-    int yMax;
-    int xMax;
-    getmaxyx(stdscr, yMax, xMax);
-    WINDOW *gameWindow = newwin(Y, X, (yMax - Y) / 2, (xMax - X) / 2);
+    WINDOW *gameWindow = centralizeWindow();
     Game g(gameWindow);
 
     while (!g.isGameOver()) {

@@ -14,13 +14,25 @@ class Logic {
     /// Constructos
     Logic();
 
+    /// Setters
+
+    /// @brief sets 'values'
+    /// @param m, matrix to use when setting
+    void setPositions(const matrix &m) { this->values = m; }
+
     /// Getters
+
+    /// @brirf returns 'values'
+    /// @return matrix with current values
     matrix getPositions() const { return this->values; }
+
+    /// Operations
 
     /// @brief changes the value of a position to a non-null number
     /// @return whether or not it was possible to change such value
     bool spawn();
     /// @brief moves positions according to input
+    /// @param input, direction to move
     void move(const int &input);
 
   private:

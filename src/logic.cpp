@@ -133,3 +133,7 @@ bool Logic::isThereEnoughSpace() {
     }
     return space < NUM_ROWS * NUM_COLS;
 }
+
+chtype Logic::colorizer(const int &value) {
+    return ('a' + value - 1) | COLOR_PAIR(value % 6 + 1);
+}

@@ -9,12 +9,13 @@ void Game::readInput() {
 }
 
 void Game::print() const {
-    const matrix M = this->gate.getPositions();
+    const matrix POSITIONS = this->gate.getPositions();
 
-    for (unsigned i = 0; i < M.size(); ++i) {
-        for (unsigned j = 0; j < M[i].size(); ++j) {
-            if (M[i][j] != 0) {
-                this->grid.print(i + 1, j + 1, (char)('a' + M[i][j] - 1));
+    for (unsigned i = 0; i < POSITIONS.size(); ++i) {
+        for (unsigned j = 0; j < POSITIONS[i].size(); ++j) {
+            if (POSITIONS[i][j] != 0) {
+                const chtype CHAR = Logic::colorizer(POSITIONS[i][j]);
+                this->grid.print(i + 1, j + 1, CHAR);
             } else {
                 this->grid.print(i + 1, j + 1, ' ');
             }

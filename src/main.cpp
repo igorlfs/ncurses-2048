@@ -4,6 +4,12 @@
 static constexpr int WINDOW_COLS = 6;
 static constexpr int WINDOW_ROWS = 6;
 
+void initColor() {
+    for (int i = 1; i <= COLOR_CYAN; ++i) {
+        init_pair(i, i, -1);
+    }
+}
+
 void initialize() {
     initscr();
     cbreak();
@@ -13,6 +19,7 @@ void initialize() {
     assert(has_colors(), "No color support!");
     start_color();
     use_default_colors();
+    initColor();
 }
 
 WINDOW *centralizeWindow() {

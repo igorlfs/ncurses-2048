@@ -1,5 +1,6 @@
 #pragma once
 
+#include <curses.h>
 #include <vector>
 
 using std::vector;
@@ -34,6 +35,10 @@ class Logic {
     /// @brief moves positions according to input
     /// @param input, direction to move
     void move(const int &input);
+
+    /// @brief turns a value from the matrix into a char with a color
+    /// @return colored chtype
+    static chtype colorizer(const int &value);
 
   private:
     matrix values;

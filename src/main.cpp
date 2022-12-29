@@ -32,12 +32,12 @@ int main() {
     initialize();
 
     WINDOW *gameWindow = centralizeWindow();
-    Game g(gameWindow);
+    Game game(gameWindow);
 
-    while (!g.isGameOver()) {
-        g.print();
-        g.readInput();
-        g.update();
+    while (!game.isGameOver()) {
+        game.print();
+        game.readInput();
+        game.update();
     }
 
     delwin(gameWindow);

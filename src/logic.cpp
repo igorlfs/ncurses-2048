@@ -11,8 +11,8 @@ Logic::Logic() {
     this->values.resize(NUM_ROWS);
     for (auto &value : this->values) {
         value.resize(NUM_COLS);
-        for (int &i : value) {
-            i = 0;
+        for (int &val : value) {
+            val = 0;
         }
     }
 }
@@ -23,10 +23,10 @@ bool Logic::spawn() {
     }
 
     // Generate random position
-    pair<int, int> p;
+    pair<int, int> pair;
     while (true) {
-        p = {Random::rng(0, NUM_COLS - 1), Random::rng(0, NUM_ROWS - 1)};
-        if (this->values[p.first][p.second] == 0) {
+        pair = {Random::rng(0, NUM_COLS - 1), Random::rng(0, NUM_ROWS - 1)};
+        if (this->values[pair.first][pair.second] == 0) {
             break;
         }
     }
@@ -38,24 +38,24 @@ bool Logic::spawn() {
     (Random::rng(0, ODDS) == 0) ? numberGenerated = 2 : numberGenerated = 1;
 
     // Place in position
-    this->values[p.first][p.second] = numberGenerated;
+    this->values[pair.first][pair.second] = numberGenerated;
 
     return true;
 }
 
 void Logic::move(const int &input) {
-    array<int, 4> r = {0, 1, 2, 3};
-    array<int, 4> c = {0, 1, 2, 3};
+    array<int, 4> rows = {0, 1, 2, 3};
+    array<int, 4> cols = {0, 1, 2, 3};
 
     if (input == KEY_UP) {
-        r = {3, 2, 1, 0};
+        rows = {3, 2, 1, 0};
     }
     if (input == KEY_LEFT) {
-        c = {3, 2, 1, 0};
+        cols = {3, 2, 1, 0};
     }
 
-    for (int &i : r) {
-        for (int &j : c) {
+    for (const int &i : rows) {
+        for (const int &j : cols) {
             if (this->values[i][j] == 0) {
                 continue;
             }
@@ -74,14 +74,12 @@ void Logic::moveHelper(const int &input, const int &n, const int &m) {
             for (int i = n - 1; i >= 0; --i) {
                 v.push_back(i);
             }
-
             break;
         }
         case KEY_DOWN: {
             for (int i = n + 1; i < NUM_ROWS; ++i) {
                 v.push_back(i);
             }
-
             break;
         }
         case KEY_RIGHT: {
@@ -89,7 +87,6 @@ void Logic::moveHelper(const int &input, const int &n, const int &m) {
                 v.push_back(i);
             }
             horizontal = true;
-
             break;
         }
         case KEY_LEFT: {
@@ -97,7 +94,6 @@ void Logic::moveHelper(const int &input, const int &n, const int &m) {
                 v.push_back(i);
             }
             horizontal = true;
-
             break;
         }
     }
@@ -107,7 +103,7 @@ void Logic::moveHelper(const int &input, const int &n, const int &m) {
 void Logic::handleMove(const int &n, const int &m, const vector<int> &v,
                        const bool &horizontal) {
     int *p = &this->values[n][m];
-    int *q;
+    int *q = nullptr;
 
     for (const int &k : v) {
         horizontal ? q = &this->values[n][k] : q = &this->values[k][m];
@@ -129,8 +125,8 @@ void Logic::handleMove(const int &n, const int &m, const vector<int> &v,
 bool Logic::isThereEnoughSpace() {
     int space = 0;
     for (auto &value : this->values) {
-        for (int &i : value) {
-            if (i != 0) {
+        for (int &val : value) {
+            if (val != 0) {
                 space++;
             }
         }
